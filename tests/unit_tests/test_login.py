@@ -1,4 +1,3 @@
-import pytest
 from models.club import Club
 
 
@@ -21,11 +20,11 @@ def test_unknown_email_login(client):
     
     #Assert
     assert response.status_code == 404
-    assert "email not found" in str(response.data)
+    assert "no club found with this email" in str(response.data)
 
 def test_empty_email_login(client):
     #Arrange
-    empty_email = "empty@random.com"
+    empty_email = ""
 
     #Act
     response = client.post('/showSummary', data={'email': empty_email})
