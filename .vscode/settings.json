@@ -1,0 +1,10 @@
+{
+    "files.exclude": {
+        ".gitignore": true,
+        "Lib": true,
+        "pyvenv.cfg": true,
+        "requirements.txt": true,
+        "Scripts": true,
+        "**/__pycache__": true
+    }
+}
