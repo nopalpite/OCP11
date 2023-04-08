@@ -1,9 +1,7 @@
-from models.club import Club
 
-
-def test_known_email_login(client):
+def test_known_email_login(client, valid_club):
     #Arrange
-    known_email = "john@simplylift.co"
+    known_email = valid_club.email
     
     #Act
     response = client.post('/showSummary', data={'email': known_email})
