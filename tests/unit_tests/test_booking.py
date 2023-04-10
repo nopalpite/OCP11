@@ -87,37 +87,31 @@ def test_book_future_competition(client, mocker):
     # Arrange
     clubs = [Club("club_name", "club@email.com", 20)]
     competitions = [Competition("competition_name", "2150-03-27 10:00:00", 50)]
-    form = {
-        'competition': "competition_name",
-        'club': "club_name",
-        'places': 10
-    }
+    club_name = "club_name"
+    competition_name = "competition_name"
+    
 
     # Act
     mocker.patch.object(server, 'clubs', clubs)
     mocker.patch.object(server, 'competitions', competitions)
-    response = client.post('/purchasePlaces', data=form)
+    response = client.get(f'/book/{competition_name}/{club_name}')
 
     # Assert
     assert response.status_code == 200
-    assert "Great-booking complete!" in str(response.data)
-
+    
 
 def test_book_past_competition(client, mocker):
     # Arrange
     clubs = [Club("club_name", "club@email.com", 20)]
     competitions = [Competition("competition_name", "1950-03-27 10:00:00", 50)]
-    form = {
-        'competition': "competition_name",
-        'club': "club_name",
-        'places': 10
-    }
+    club_name = "club_name"
+    competition_name = "competition_name"
 
     # Act
     mocker.patch.object(server, 'clubs', clubs)
     mocker.patch.object(server, 'competitions', competitions)
-    response = client.post('/purchasePlaces', data=form)
+    response = client.get(f"/book/{competition_name}/{club_name}")
 
     # Assert
     assert response.status_code == 400
-    assert "You can't book a past competition!" in str(response.data)
+    assert "This competition is over!" in str(response.data)

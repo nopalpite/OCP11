@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, flash, url_for
+from datetime import datetime
 from data.data_loader import load_clubs, load_competitions
 
 
@@ -34,7 +35,11 @@ def book(competition, club):
     found_club = [c for c in clubs if c.name == club][0]
     found_competition = [c for c in competitions if c.name == competition][0]
     if found_club and found_competition:
-        return render_template('booking.html', club=found_club, competition=found_competition)
+        if found_competition.date < datetime.today().strftime('%Y-%m-%d %H:%M:%S'):
+            flash("This competition is over!")
+            return render_template('welcome.html', club=found_club, competitions=competitions), 400
+        else:
+            return render_template('booking.html', club=found_club, competition=found_competition)
     else:
         flash("Something went wrong-please try again")
         return render_template('welcome.html', club=club, competitions=competitions)
