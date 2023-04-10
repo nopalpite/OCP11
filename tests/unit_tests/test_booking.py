@@ -114,3 +114,24 @@ def test_book_past_competition(client, mocker):
     # Assert
     assert response.status_code == 400
     assert "This competition is over!" in str(response.data)
+
+def test_points_update(client, mocker):
+    # Arrange
+    club_points = 20
+    places = 1
+    clubs = [Club("club_name", "club@email.com", club_points)]
+    competitions = [Competition("competition_name", "2020-03-27 10:00:00", 30)]
+    form = {
+        'competition': "competition_name",
+        'club': "club_name",
+        'places': places
+    }
+
+    # Act
+    mocker.patch.object(server, 'clubs', clubs)
+    mocker.patch.object(server, 'competitions', competitions)
+    response = client.post('/purchasePlaces', data=form)
+
+    # Assert
+    assert response.status_code == 200
+    assert f"Points available: {club_points - places}" in str(response.data)
