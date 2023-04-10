@@ -16,4 +16,8 @@ def test_points_display_board(client, mocker):
     
     # Assert
     response.status_code == 200
-    
+    assert f"{clubs[0].name}" and f"{clubs[0].points}" in str(response.data)
+    assert f"{clubs[1].name}" and f"{clubs[1].points}" in str(response.data)
+    assert f"{clubs[2].name}" and f"{clubs[2].points}" in str(response.data)
+
+
