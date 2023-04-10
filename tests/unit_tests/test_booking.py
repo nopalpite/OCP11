@@ -89,7 +89,6 @@ def test_book_future_competition(client, mocker):
     competitions = [Competition("competition_name", "2150-03-27 10:00:00", 50)]
     club_name = "club_name"
     competition_name = "competition_name"
-    
 
     # Act
     mocker.patch.object(server, 'clubs', clubs)
@@ -98,7 +97,7 @@ def test_book_future_competition(client, mocker):
 
     # Assert
     assert response.status_code == 200
-    
+
 
 def test_book_past_competition(client, mocker):
     # Arrange
