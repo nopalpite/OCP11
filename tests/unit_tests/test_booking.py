@@ -42,6 +42,7 @@ def test_book_with_more_than_available_points(client, mocker):
     assert response.status_code == 400
     assert "Not enough points!" in str(response.data)
 
+
 def test_book_with_more_than_twelve_points(client, mocker):
     # Arrange
     clubs = [Club("club_name", "club@email.com", 20)]
@@ -60,6 +61,7 @@ def test_book_with_more_than_twelve_points(client, mocker):
     # Assert
     assert response.status_code == 400
     assert "No more than 12 points!" in str(response.data)
+
 
 def test_book_with_more_than_competition_places(client, mocker):
     # Arrange
