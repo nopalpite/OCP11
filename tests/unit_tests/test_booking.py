@@ -81,3 +81,43 @@ def test_book_with_more_than_competition_places(client, mocker):
     # Assert
     assert response.status_code == 400
     assert "Not enough places available!" in str(response.data)
+
+
+def test_book_future_competition(client, mocker):
+    # Arrange
+    clubs = [Club("club_name", "club@email.com", 20)]
+    competitions = [Competition("competition_name", "2150-03-27 10:00:00", 50)]
+    form = {
+        'competition': "competition_name",
+        'club': "club_name",
+        'places': 10
+    }
+
+    # Act
+    mocker.patch.object(server, 'clubs', clubs)
+    mocker.patch.object(server, 'competitions', competitions)
+    response = client.post('/purchasePlaces', data=form)
+
+    # Assert
+    assert response.status_code == 200
+    assert "Great-booking complete!" in str(response.data)
+
+
+def test_book_past_competition(client, mocker):
+    # Arrange
+    clubs = [Club("club_name", "club@email.com", 20)]
+    competitions = [Competition("competition_name", "1950-03-27 10:00:00", 50)]
+    form = {
+        'competition': "competition_name",
+        'club': "club_name",
+        'places': 10
+    }
+
+    # Act
+    mocker.patch.object(server, 'clubs', clubs)
+    mocker.patch.object(server, 'competitions', competitions)
+    response = client.post('/purchasePlaces', data=form)
+
+    # Assert
+    assert response.status_code == 400
+    assert "You can't book a past competition!" in str(response.data)
