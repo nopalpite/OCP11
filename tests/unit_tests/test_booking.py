@@ -81,3 +81,36 @@ def test_book_with_more_than_competition_places(client, mocker):
     # Assert
     assert response.status_code == 400
     assert "Not enough places available!" in str(response.data)
+
+
+def test_book_future_competition(client, mocker):
+    # Arrange
+    clubs = [Club("club_name", "club@email.com", 20)]
+    competitions = [Competition("competition_name", "2150-03-27 10:00:00", 50)]
+    club_name = "club_name"
+    competition_name = "competition_name"
+
+    # Act
+    mocker.patch.object(server, 'clubs', clubs)
+    mocker.patch.object(server, 'competitions', competitions)
+    response = client.get(f'/book/{competition_name}/{club_name}')
+
+    # Assert
+    assert response.status_code == 200
+
+
+def test_book_past_competition(client, mocker):
+    # Arrange
+    clubs = [Club("club_name", "club@email.com", 20)]
+    competitions = [Competition("competition_name", "1950-03-27 10:00:00", 50)]
+    club_name = "club_name"
+    competition_name = "competition_name"
+
+    # Act
+    mocker.patch.object(server, 'clubs', clubs)
+    mocker.patch.object(server, 'competitions', competitions)
+    response = client.get(f"/book/{competition_name}/{club_name}")
+
+    # Assert
+    assert response.status_code == 400
+    assert "This competition is over!" in str(response.data)
