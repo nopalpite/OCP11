@@ -1,4 +1,4 @@
-from flask import Flask, render_template,request,redirect,flash,url_for
+from flask import Flask, render_template, request, redirect, flash, url_for
 from data.data_loader import load_clubs, load_competitions
 
 
@@ -13,7 +13,8 @@ competitions = load_competitions()
 def index():
     return render_template('index.html')
 
-@app.route('/showSummary',methods=['POST'])
+
+@app.route('/showSummary', methods=['POST'])
 def show_summary():
     email = request.form['email']
     club = next((c for c in clubs if c.email == email), None)
@@ -24,9 +25,9 @@ def show_summary():
             flash("please enter an email")
             return render_template('index.html'), 400
         else:
-            flash("no club found with this email") 
+            flash("no club found with this email")
             return render_template('index.html'), 404
-    
+
 
 @app.route('/book/<competition>/<club>')
 def book(competition, club):
@@ -41,14 +42,22 @@ def book(competition, club):
 
 @app.route('/purchasePlaces', methods=['POST'])
 def purchase_places():
-    competition = next((c for c in competitions if c.name == request.form['competition']), None)
+    competition = next((c for c in competitions if c.name ==
+                       request.form['competition']), None)
     club = next((c for c in clubs if c.name == request.form['club']), None)
     places_required = int(request.form['places'])
     if places_required > club.points:
         flash("Not enough points!")
-        return render_template('welcome.html', club=club, competitions=competitions),400
+        return render_template('welcome.html', club=club, competitions=competitions), 400
+    elif places_required > competition.number_of_places:
+        flash("Not enough places available!")
+        return render_template('welcome.html', club=club, competitions=competitions), 400
+    elif places_required > 12:
+        flash("No more than 12 points!")
+        return render_template('welcome.html', club=club, competitions=competitions), 400
     else:
-        competition.number_of_places = int(competition.number_of_places) - places_required
+        competition.number_of_places = int(
+            competition.number_of_places) - places_required
         flash('Great-booking complete!')
         return render_template('welcome.html', club=club, competitions=competitions)
 
@@ -59,4 +68,3 @@ def purchase_places():
 @app.route('/logout')
 def logout():
     return redirect(url_for('index'))
-
