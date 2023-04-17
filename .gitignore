@@ -9,3 +9,4 @@ Lib/
 pyvenv.cfg
 Scripts/
 geckodriver.log
+.coverage
