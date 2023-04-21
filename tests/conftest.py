@@ -1,8 +1,5 @@
 import pytest
-from random import choice
-from server import app, clubs, competitions
-from models.club import Club
-from models.competition import Competition
+from server import app
 
 
 @pytest.fixture

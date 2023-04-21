@@ -44,8 +44,13 @@
 
 5. Testing
 
-    You are free to use whatever testing framework you like-the main thing is that you can show what tests you are using.
+    This project use Pytest and Selenium for testing. Whe also use Coverage for coverage report, and Locust for performance report.
+    You need to run server first to be able to do all tests.
 
-    We also like to show how well we're testing, so there's a module called 
-    [coverage](https://coverage.readthedocs.io/en/coverage-5.1/) you should add to your project.
+    * For running all tests, use <code>coverage run -m pytest -v tests</code> in your root directory
 
+    * Now you can generate a coverage report with <code>coverage html</code>.A htmlcov folder is created, and you can open index.html file in a browser to see the report.  
+
+    * To run performance tests use <code>locust -f .\tests\performance_tests\locustfile.py --web-host=127.0.0.1</code> in your root directory.
+    Then open http://127.0.0.1:8089 in your browser, set Numbers of users at 6, and Host at http://127.0.0.1:5000.
+    Click on Start swarming to launch performance test.

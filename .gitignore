@@ -3,7 +3,10 @@ include
 lib
 .Python
 .envrc
+.vscode
 __pycache__
 Lib/
 pyvenv.cfg
 Scripts/
+geckodriver.log
+.coverage
