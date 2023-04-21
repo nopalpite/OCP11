@@ -20,7 +20,7 @@ class LocustTestServer(HttpUser):
                 "places": 0,
                 "club": "Simply Lift",
                 "competition": "Fail Classic"
-                 }
+            }
         )
 
     @task

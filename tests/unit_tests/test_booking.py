@@ -115,6 +115,7 @@ def test_book_past_competition(client, mocker):
     assert response.status_code == 400
     assert "This competition is over!" in str(response.data)
 
+
 def test_points_update(client, mocker):
     # Arrange
     club_points = 20

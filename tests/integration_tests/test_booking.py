@@ -4,7 +4,7 @@ def test_login_booking_logout(client):
     response = client.post('/showSummary', data=form)
     assert response.status_code == 200
 
-    #Test booking
+    # Test booking
     form = {'competition': "Fail Classic",
             'club': "Simply Lift",
             'places': 2
@@ -13,7 +13,7 @@ def test_login_booking_logout(client):
     assert response.status_code == 200
     response = client.post('/purchasePlaces', data=form)
     assert "Great-booking complete!" in str(response.data)
-    
+
     # Test logout
     response = client.get('/logout', follow_redirects=True)
     assert response.status_code == 200
